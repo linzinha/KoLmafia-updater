@@ -48,4 +48,4 @@ if new_jar_link:
             print(f"Old file '{current_file}' removed.")
 
 else:
-    print("The file ends match. No need to download a new file.")
+    print("Jar versions match. No need to update.")
