@@ -39,15 +39,6 @@ config = configparser.ConfigParser()
 config.read(config_file_path)
 stored_folder = config['DEFAULT']['destination_folder'].strip()
 
-# Check if config.ini exists, if not, create it with the default path
-if not os.path.exists(config_file_path):
-    config = configparser.ConfigParser()
-    config['DEFAULT'] = {'destination_folder': starting_path,
-                         'current_hash': 'None',
-                         'last_run': 'None'}
-    with open(config_file_path, 'w') as configfile:
-        config.write(configfile)
-
 
 def set_destination_folder():
     global stored_folder
@@ -59,26 +50,30 @@ def set_destination_folder():
                    f"Destination Folder Path: {stored_folder}\\")
     if folder.lower() in CANCEL_OPTIONS:
         return stored_folder
-    verify = input(f"You entered {folder}, is this correct? ([y]es/[n]o/[c]ancel): ")
-    if verify.lower() in YES_OPTIONS:
-        if not os.path.exists(folder):
-            print("Error: The folder does not exist. Is this correct?")
-            return stored_folder
-
-        with open(config_file_path, "w") as config_file:
-            config = configparser.ConfigParser()
-            config['DEFAULT'] = {'destination_folder': folder}
-            config.write(config_file)
-
-        print("Destination folder has been set successfully.\n")
-        return folder
-    elif verify in NO_OPTIONS:
-        return set_destination_folder()
-    elif verify in CANCEL_OPTIONS:
-        return stored_folder
     else:
-        print("Invalid choice. Please try again.")
-        return set_destination_folder()
+        folder = os.path.join(stored_folder, folder)
+        verify = input(f"\nYou entered {folder}, is this correct? ([y]es/[n]o/[c]ancel): ")
+        if verify.lower() in YES_OPTIONS:
+            if not os.path.exists(folder):
+                print("Error: The folder does not exist. Is this correct?")
+                return stored_folder
+
+            with open(config_file_path, "w") as config_file:
+                config = configparser.ConfigParser()
+                config['DEFAULT'] = {'destination_folder': folder}
+                config.write(config_file)
+
+            # Update the stored_folder variable with the new value
+            stored_folder = folder
+            print("Destination folder has been set successfully.\n")
+            return folder
+        elif verify in NO_OPTIONS:
+            return set_destination_folder()
+        elif verify in CANCEL_OPTIONS:
+            return stored_folder
+        else:
+            print("Invalid choice. Please try again.")
+            return set_destination_folder()
 
 
 def calculate_hash(file_path):
