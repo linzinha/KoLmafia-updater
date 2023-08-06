@@ -6,7 +6,8 @@
 
 ### Python version
 Due to the use of switch case handling, this script **requires** at least Python 3.10 or later.
-It was written on version 3.11.3
+
+It was written with version 3.11.3
 
 ### OS
 While the goal is to be OS Agnostic, I've only tested so far on Windows 10 so cannot confirm full compatibility with Linux/Unix systems. Testing is appreciated!
