@@ -78,8 +78,8 @@ def set_destination_folder(config):
             verify = input(f"\nYou entered {mafia_folder}, is this correct? ([y]es/[n]o/[c]ancel): ")
             match verify[0].lower():
                 case 'y': set_config('destination_folder', mafia_folder); main_menu(config)
-                case 'n': return set_destination_folder()
-                case 'c': return DESTINATION_FOLDER; main_menu(config)
+                case 'n': set_destination_folder(config)
+                case 'c': main_menu(config)
         else:
             print(f"{mafia_folder}\n"
                   "is an Invalid folder path. Please enter a valid existing folder path.")
