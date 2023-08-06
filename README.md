@@ -1,11 +1,12 @@
 # KoLmafia-updater
 
 ## Requirements
-requests~=2.31.0
-beautifulsoup4~=4.12.2
+- requests~=2.31.0
+- beautifulsoup4~=4.12.2
 
 ### Python version
-Due to the use of switch case handling, this script **requires** at least Python 3.10 or later and was written on version 3.11.3
+Due to the use of switch case handling, this script **requires** at least Python 3.10 or later.
+It was written on version 3.11.3
 
 ### OS
 While the goal is to be OS Agnostic, I've only tested so far on Windows 10 so cannot confirm full compatibility with Linux/Unix systems. Testing is appreciated!
@@ -31,19 +32,19 @@ You entered C:\Users\Linzinha\Documents\KoLmafia, is this correct? ([y]es/[n]o/[
 Destination folder has been set successfully.
 ```
 
-[y]es will save the file
-[n]o will reprompt for user input
-[c]ancel will keep the previoussly defined destination folder set and return to the main menu
+- [y]es will save the file
+- [n]o will reprompt for user input
+- [c]ancel will keep the previoussly defined destination folder set and return to the main menu
 
 This information is stored in the `config.ini` file and can also be changed manually
 
 ## Running kol_updater manually
 When selecting option 2, The script will then do the following steps:
-    - find and download the current .jar file on `https://ci.kolmafia.us/job/Kolmafia/lastSuccessfulBuild/`
-    - check the hash value of the new .jar file and the hash saved in the config file 
-    - if no hash exists in the config file, the script falls back to checking the existing .jar file 
-    - if the hashes are identical it will delete the new download
-    - if they aren't identical, the new download replaces to .jar file in the destination folder and the Mafia is now updated!
+1. find and download the current .jar file on `https://ci.kolmafia.us/job/Kolmafia/lastSuccessfulBuild/`
+2. check the hash value of the new .jar file and the hash saved in the config file
+3. if no hash exists in the config file, the script falls back to checking the existing .jar file
+4. if the hashes are identical it will delete the new download
+5. if they aren't identical, the new download replaces to .jar file in the destination folder and the Mafia is now updated!
 
 ## Using quickupdate
 
