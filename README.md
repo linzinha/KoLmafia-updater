@@ -1,5 +1,16 @@
 # KoLmafia-updater
 
+## Requirements
+requests~=2.31.0
+beautifulsoup4~=4.12.2
+
+### Python version
+Due to the use of switch case handling, this script **requires** at least Python 3.10 or later and was written on version 3.11.3
+
+### OS
+While the goal is to be OS Agnostic, I've only tested so far on Windows 10 so cannot confirm full compatibility with Linux/Unix systems. Testing is appreciated!
+
+
 ## Setting the destination folder
 When you first run the script, you will need to point it to Mafia's location with option 1 on the main menu. The default path is your user's home folder, and all entries will be RELATIVE paths to that home folder, like so:
 
@@ -7,15 +18,14 @@ When you first run the script, you will need to point it to Mafia's location wit
 Menu:
 1. Set destination folder [CURRENTLY C:\Users\Linzinha]
 2. Run updater
-3. Set updater to run automatically [IN DEVELOPMENT]
+3. Configure automatic updater [IN DEVELOPMENT]
 0. Exit
 
-Enter the destination folder path
-----------
-- Start the line with a backslash to traverse out of the current directory
-- Enter c to [c]ancel
-----------
-Destination Folder Path: C:\Users\Linzinha\Documents\KoLmafia
+Enter the destination folder path (or c to [c]ancel)
+--------------
+Current Destination Folder Path: C:\Users\Linzinha\
+--------------
+Set New Destination Folder Path: C:\Users\Linzinha\Documents\KoLmafia
 
 You entered C:\Users\Linzinha\Documents\KoLmafia, is this correct? ([y]es/[n]o/[c]ancel): y
 Destination folder has been set successfully.
@@ -27,50 +37,25 @@ Destination folder has been set successfully.
 
 This information is stored in the `config.ini` file and can also be changed manually
 
-## Run the updater manually
-The script will then do the following steps:
-- find and download the current .jar file on `https://ci.kolmafia.us/job/Kolmafia/lastSuccessfulBuild/`
-- it will then check the hash value of the new and existing .jar files
- - if the hashes are identical iy will delete the new download
- - if they aren't identical, the new download replaces to .jar file in the destination folder and the Mafia is now updated!
+## Running kol_updater manually
+When selecting option 2, The script will then do the following steps:
+    - find and download the current .jar file on `https://ci.kolmafia.us/job/Kolmafia/lastSuccessfulBuild/`
+    - check the hash value of the new .jar file and the hash saved in the config file 
+    - if no hash exists in the config file, the script falls back to checking the existing .jar file 
+    - if the hashes are identical it will delete the new download
+    - if they aren't identical, the new download replaces to .jar file in the destination folder and the Mafia is now updated!
+
+## Using quickupdate
+
+If you've successfully run any version of kol_updater, just make sure that the `quickupdate.exe` or `quickupdate.py` file is in the exact same folder as your `config.ini` file and it should work just fine. Otherwise, it will run with the default configuration
+
+If you are running it without running `kol_updater`.py or .exe,just make sure to write a config file with the following information:
 
 ```
-Menu:
-1. Set destination folder [CURRENTLY C:\Users\Linzinha\Documents\KoLmafia]
-2. Run updater
-3. Set updater to run automatically [IN DEVELOPMENT]
-0. Exit
-
-Enter your choice: 2
-Downloaded File: c80e6586e6ef422585e8014e6488d6d699f00325c8ab325414d18719c8340e67
-Current file: 1be2156552cc2a934ce4f5c7347f5d6fc4bbe51e0776d8c4acc6014f54e73951
-
-KoLmafia-27498.jar removed
-File 'KoLmafia-27498.jar' has been moved to ''C:\Users\Linzinha\Documents\KoLmafia\'. Mafia updated to version 27499.
+[DEFAULT]
+destination_folder = YOUR_DESTINATION_FOLDER
+last_run = 
+last_updated = 
+jar_version = 
+jar_hash = 
 ```
-
-```
-Enter your choice: 2
-Fetching latest build - this can take a few seconds
-
-Downloaded File: 7c50da4d34cbe04c3cd11079253c14403b56f586a82f93fbd54df88311e3de71
-Current file: 7c50da4d34cbe04c3cd11079253c14403b56f586a82f93fbd54df88311e3de71
-
-Jar file was missing, Mafia has been repaired.
-File 'KoLmafia-27501.jar' has been moved to 'C:\Users\Linzinha\Documents\KoLmafia\'. Mafia updated to version 27501.
-
-Menu:
-1. Set destination folder [CURRENTLY C:\Users\Linzinha\Documents\KoLmafia]
-2. Run updater
-3. Set updater to run automatically [IN DEVELOPMENT]
-0. Exit
-
-Enter your choice: 0
-
-Process finished with exit code 0
-```
-
-## Requirements
-requests~=2.31.0
-beautifulsoup4~=4.12.2
-
