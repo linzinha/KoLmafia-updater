@@ -6,7 +6,8 @@
 
 ### Python version
 Due to the use of switch case handling, this script **requires** at least Python 3.10 or later.
-It was written on version 3.11.3
+
+It was written with version 3.11.3
 
 ### OS
 While the goal is to be OS Agnostic, I've only tested so far on Windows 10 so cannot confirm full compatibility with Linux/Unix systems. Testing is appreciated!
@@ -50,7 +51,7 @@ When selecting option 2, The script will then do the following steps:
 
 If you've successfully run any version of kol_updater, just make sure that the `quickupdate.exe` or `quickupdate.py` file is in the exact same folder as your `config.ini` file and it should work just fine. Otherwise, it will run with the default configuration
 
-If you are running it without running `kol_updater`.py or .exe,just make sure to write a config file with the following information:
+If you are running it without running `kol_updater`.py or .exe first, just make sure to write a config file with the following information:
 
 ```
 [DEFAULT]
