@@ -1,6 +1,6 @@
 import configparser
 import os
-import sys
+import kol_updater
 
 # Constants
 CONFIG_FILE_PATH = "config.ini"  # File path for the configuration file
@@ -30,7 +30,7 @@ def main_menu(config):
         print("\nMenu:")
         print(f"1: Set destination folder [CURRENTLY {mafia_folder}]")
         print(f"2: Restore Config Defaults")
-        print("0: Exit\n")
+        print("0: Go back to main menu\n")
 
         choice = input("Enter your choice: ")
 
@@ -42,7 +42,7 @@ def main_menu(config):
             case "3":
                 print("configure_auto_updater is in development")
             case "0":
-                sys.exit()
+                kol_updater.main()
             case "_":
                 print("Invalid choice. Please try again.")
 
@@ -84,8 +84,16 @@ def set_destination_folder(config):
                 case 'c':
                     main_menu(config)
         else:
-            print(f"{mafia_folder}\n"
-                  "is an Invalid folder path. Please enter a valid existing folder path.")
+            new_folder = input(f"{mafia_folder} is an Invalid folder path. Do you want to create this directory?")
+            match new_folder.lower():
+                case 'y':
+                    os.mkdir(mafia_folder)
+                    set_config(config, 'destination_folder', mafia_folder)
+                    main_menu(config)
+                case 'n':
+                    set_destination_folder(config)
+                case 'c':
+                    main_menu(config)
 
 
 # Main function

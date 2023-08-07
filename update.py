@@ -1,6 +1,6 @@
 import configparser
+import configure
 import hashgen
-import kol_updater
 import os
 import requests
 from bs4 import BeautifulSoup
@@ -40,7 +40,7 @@ def set_configs(config, config_changes):
         print(f"{key} set to: {value}")
 
 
-def verify_configuration(config):
+def verify_configuration(config, mafia_folder):
     """ ######################################################################
     Verifies the configuration file and extracts version and hash information.
     Args:       config (configparser.ConfigParser): Configuration object
@@ -57,8 +57,7 @@ def verify_configuration(config):
             config_info[key] = value[0](value[1], value[2])
         except (ValueError, TypeError):
             config_info[key] = None
-
-    if config_info['version'] is None:
+    if not os.path.isfile(os.path.join(mafia_folder, f"KoLmafia-{config_info['version']}.jar")):
         config_info['jfile'] = None
     else:
         config_info['jfile'] = f"KoLmafia-{config_info['version']}.jar"
@@ -117,8 +116,7 @@ def update_kolmafia_jar(config, mafia_folder):
 
     if download_url:
         url_hash = hashgen.generate_hash_from_url(download_url)
-        config_info = verify_configuration(config)
-
+        config_info = verify_configuration(config, mafia_folder)
         if config_info['jar_file'] is not None:
             if config_info['version'] is None:
                 set_configs(config, {'jar_version': config_info['jar_file'][-9:-4]})
@@ -157,19 +155,17 @@ def update_kolmafia_jar(config, mafia_folder):
                       f"Mafia has been repaired and updated to version {jar_version}.")
             case "up to date":
                 print("Mafia is already up to date")
-    exit(1)
 
 
 # Main function
 def main():
     config = configparser.ConfigParser(defaults=DEFAULT_CONFIG)
     if not os.path.exists(CONFIG_FILE_PATH):  # Check if config.ini exists
-        kol_updater.main()  # run the script that handles config file setup
+        configure.restore_defaults()
+        configure.set_destination_folder(config)  # run the script that handles config file setup
     config.read(CONFIG_FILE_PATH)  # Read the configuration from the file
     mafia_folder = config.get('DEFAULT', 'destination_folder', fallback='Not Set')
-
-    while True:
-        update_kolmafia_jar(config, mafia_folder)
+    update_kolmafia_jar(config, mafia_folder)
 
 
 if __name__ == "__main__":
